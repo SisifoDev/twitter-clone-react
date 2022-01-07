@@ -1,7 +1,7 @@
 import { breakpoints, fonts, colors } from "../../styles/theme";
 import { addOpacityToColor } from "../../styles/utils";
 
-const backgroundColor = addOpacityToColor(colors.primary, 0.5);
+const backgroundColor = addOpacityToColor(colors.primary, 0.3);
 
 export default function AppLayout({ children }) {
   return (
@@ -25,7 +25,7 @@ export default function AppLayout({ children }) {
         @media (min-width: ${breakpoints.mobile}) {
           main {
             height: 90vh;
-            width: 520px;
+            width: ${breakpoints.mobile};
           }
         }
       `}</style>
