@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Head from "next/head";
 import Image from "next/image";
@@ -7,16 +7,20 @@ import Button from "../components/Button";
 import GitHub from "../components/Icons/GitHub";
 import { colors } from "../styles/theme";
 
-import { loginWithGitHub } from "../firebase/client";
+import { loginWithGitHub, onAuthStateChanged } from "../firebase/client";
 
 export default function Home() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(undefined);
+
+  useEffect(() => {
+    onAuthStateChanged(setUser);
+  }, []);
+
   const handleClick = () => {
     loginWithGitHub()
       .then((user) => {
         const { avatar, username, url } = user;
         setUser(user);
-        console.log(user);
       })
       .catch((error) => {
         console.log(error);
@@ -39,10 +43,18 @@ export default function Home() {
             <br /> with developers 🙍‍♂️🙍‍♀️
           </h2>
           <div>
-            <Button onClick={handleClick}>
-              <GitHub width={24} height={24} fill={colors.white} />
-              Login with Github
-            </Button>
+            {user === null && (
+              <Button onClick={handleClick}>
+                <GitHub width={24} height={24} fill={colors.white} />
+                Login with Github
+              </Button>
+            )}
+            {user && user.avatar && (
+              <div>
+                <img src={user.avatar} alt="avatar" width={100} />
+                <strong>{user.username}</strong>
+              </div>
+            )}
           </div>
         </section>
       </AppLayout>
@@ -56,10 +68,19 @@ export default function Home() {
           place-content: center;
           place-items: center;
         }
+        div {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
         h1 {
           color: ${colors.primary};
           font-weight: 800;
           margin-bottom: 16px;
+        }
+        img {
+          border-radius: 50%;
         }
         h2 {
           color: ${colors.secondary};

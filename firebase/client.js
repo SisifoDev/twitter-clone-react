@@ -13,21 +13,26 @@ const firebaseConfig = {
   appId: "1:75902734715:web:8ecdba2c8bc68b93b1adde",
 };
 
-firebase.initializeApp(firebaseConfig);
+!firebase.apps.length && firebase.initializeApp(firebaseConfig);
+
+const mapUserFromFirebaseAuthToUser = (user) => {
+  const { displayName, email, photoURL } = user;
+
+  return {
+    avatar: photoURL,
+    username: displayName,
+    email,
+  };
+};
+
+export const onAuthStateChanged = (onChange) => {
+  return firebase.auth().onAuthStateChanged((user) => {
+    const normalizedUser = mapUserFromFirebaseAuthToUser(user);
+    onChange(normalizedUser);
+  });
+};
 
 export const loginWithGitHub = () => {
   const githubProvider = new firebase.auth.GithubAuthProvider();
-  return firebase
-    .auth()
-    .signInWithPopup(githubProvider)
-    .then((user) => {
-      const { additionalUserInfo } = user;
-      const { username, profile } = additionalUserInfo;
-      const { avatar_url, blog } = profile;
-      return {
-        avatar: avatar_url,
-        username,
-        url: blog,
-      };
-    });
+  return firebase.auth().signInWithPopup(githubProvider);
 };
