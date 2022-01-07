@@ -15,6 +15,9 @@ export default function Button({ children, onClick }) {
           font-weight: 800;
           padding: 8px 24px;
           transition: opacity 0.3s ease;
+          display: flex;
+          align-items: center;
+          gap: 8px;
         }
         button:hover {
           opacity: 0.7;

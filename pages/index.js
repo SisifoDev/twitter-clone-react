@@ -2,6 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import AppLayout from "../components/AppLayout";
 import Button from "../components/Button";
+import GitHub from "../components/Icons/GitHub";
 import { colors } from "../styles/theme";
 
 export default function Home() {
@@ -21,7 +22,10 @@ export default function Home() {
             <br /> with developers 🙍‍♂️🙍‍♀️
           </h2>
           <div>
-            <Button>Login with Github</Button>
+            <Button>
+              <GitHub width={24} height={24} fill={colors.white} />
+              Login with Github
+            </Button>
           </div>
         </section>
       </AppLayout>
