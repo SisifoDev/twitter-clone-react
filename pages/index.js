@@ -1,93 +1,88 @@
-import { useState, useEffect } from "react";
+import {useEffect, useState} from 'react'
+import Head from 'next/head'
+import AppLayout from '../components/AppLayout'
+import { colors } from '../styles/theme'
+import Button from '../components/Button'
+import GitHub from '../components/Icons/GitHub'
 
-import Head from "next/head";
-import Image from "next/image";
-import AppLayout from "../components/AppLayout";
-import Button from "../components/Button";
-import GitHub from "../components/Icons/GitHub";
-import { colors } from "../styles/theme";
-
-import { loginWithGitHub, onAuthStateChanged } from "../firebase/client";
+import {
+  loginWithGitHub,
+  onAuthStateChanged
+} from '../firebase/client'
 
 export default function Home() {
-  const [user, setUser] = useState(undefined);
-
+  const [user, setUser] = useState(undefined)
+  
   useEffect(() => {
-    onAuthStateChanged(setUser);
-  }, []);
+    onAuthStateChanged(setUser)
+  }, [])
 
   const handleClick = () => {
-    loginWithGitHub()
-      .then((user) => {
-        const { avatar, username, url } = user;
-        setUser(user);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+    loginWithGitHub().then(setUser).catch(err => {
+      console.log(err)
+    })
+  }
 
   return (
     <>
       <Head>
-        <title>Devter 🐦</title>
+        <title>devter 🐦</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <AppLayout>
         <section>
-          <Image src="/devter-logo.png" alt="logo" width={120} height={120} />
+          <img src='/devter-logo.png' alt='Logo' />
           <h1>Devter</h1>
-          <h2>
-            Talk about development
-            <br /> with developers 🙍‍♂️🙍‍♀️
-          </h2>
+          <h2>Talk about development<br />with developers 👩‍💻👨‍💻</h2>
+
           <div>
-            {user === null && (
-              <Button onClick={handleClick}>
-                <GitHub width={24} height={24} fill={colors.white} />
-                Login with Github
-              </Button>
-            )}
-            {user && user.avatar && (
-              <div>
-                <img src={user.avatar} alt="avatar" width={100} />
+            {
+              user === null &&
+                <Button onClick={handleClick}>
+                  <GitHub fill='#fff' width={24} height={24} />
+                  Login with GitHub
+                </Button>
+            }
+            {
+              user && user.avatar && <div>
+                <img src={user.avatar} />
                 <strong>{user.username}</strong>
               </div>
-            )}
+            }
           </div>
+          
         </section>
       </AppLayout>
+
       <style jsx>{`
+        img {
+          width: 120px;
+        }
+
         div {
           margin-top: 16px;
         }
+
         section {
           display: grid;
           height: 100%;
           place-content: center;
           place-items: center;
         }
-        div {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
+
         h1 {
-          color: ${colors.primary};
+          color: ${colors.secondary};
           font-weight: 800;
           margin-bottom: 16px;
         }
-        img {
-          border-radius: 50%;
-        }
+
         h2 {
-          color: ${colors.secondary};
-          font-size: 20px;
+          color: ${colors.primary};
+          font-size: 21px;
           margin: 0;
         }
       `}</style>
     </>
-  );
+  )
 }
