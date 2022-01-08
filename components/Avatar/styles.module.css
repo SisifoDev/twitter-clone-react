@@ -1,0 +1,11 @@
+.container {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+}
+.avatar {
+  width: 49px;
+  height: 49px;
+  border-radius: 50%;
+}
