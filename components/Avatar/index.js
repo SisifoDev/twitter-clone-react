@@ -1,10 +1,10 @@
-import styles from "./styles.module.css";
+import styles from "./styles.module.css"
 
-export default function ({ alt, src, text, withText }) {
+export default function Avatar({ alt, src, text }) {
   return (
     <div className={styles.container}>
-      <img className={styles.avatar} src={src} alt={alt} title={alt} />
-      {withText && <strong> {text || alt}</strong>}
+      <img className={styles.avatar} alt={alt} src={src} title={alt} />
+      {text && <strong>{text}</strong>}
     </div>
-  );
+  )
 }

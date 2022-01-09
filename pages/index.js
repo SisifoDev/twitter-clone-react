@@ -1,27 +1,30 @@
-import { useEffect, useState } from "react";
-import Head from "next/head";
-import AppLayout from "../components/AppLayout";
-import { colors } from "../styles/theme";
-import Button from "../components/Button";
-import GitHub from "../components/Icons/GitHub";
+import { useEffect, useState } from "react"
+import Head from "next/head"
 
-import { loginWithGitHub, onAuthStateChanged } from "../firebase/client";
-import Avatar from "../components/Avatar";
+import AppLayout from "components/AppLayout"
+import Avatar from "components/Avatar"
+import Button from "components/Button"
+import GitHub from "components/Icons/GitHub"
+import Logo from "components/Icons/Logo"
+
+import { colors } from "styles/theme"
+
+import { loginWithGitHub, onAuthStateChanged } from "firebase/client"
 
 export default function Home() {
-  const [user, setUser] = useState(undefined);
+  const [user, setUser] = useState(undefined)
 
   useEffect(() => {
-    onAuthStateChanged(setUser);
-  }, []);
+    onAuthStateChanged(setUser)
+  }, [])
 
   const handleClick = () => {
     loginWithGitHub()
       .then(setUser)
       .catch((err) => {
-        console.log(err);
-      });
-  };
+        console.log(err)
+      })
+  }
 
   return (
     <>
@@ -32,7 +35,7 @@ export default function Home() {
 
       <AppLayout>
         <section>
-          <img src="/devter-logo.png" alt="Logo" />
+          <Logo width="100" />
           <h1>Devter</h1>
           <h2>
             Talk about development
@@ -50,10 +53,9 @@ export default function Home() {
             {user && user.avatar && (
               <div>
                 <Avatar
-                  alt={user.name}
+                  alt={user.username}
                   src={user.avatar}
                   text={user.username}
-                  withText
                 />
               </div>
             )}
@@ -78,17 +80,18 @@ export default function Home() {
         }
 
         h1 {
-          color: ${colors.secondary};
+          color: ${colors.primary};
           font-weight: 800;
+          font-size: 32px;
           margin-bottom: 16px;
         }
 
         h2 {
-          color: ${colors.primary};
+          color: ${colors.secondary};
           font-size: 21px;
           margin: 0;
         }
       `}</style>
     </>
-  );
+  )
 }
