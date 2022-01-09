@@ -1,10 +1,10 @@
-import React from "react";
+import styles from "./styles.module.css"
 
-export const index = ({ avatar, username }) => {
+export default function Avatar({ alt, src, text }) {
   return (
-    <div>
-      <img src={avatar} alt="avatar" width={100} />
-      <strong>{username}</strong>
+    <div className={styles.container}>
+      <img className={styles.avatar} alt={alt} src={src} title={alt} />
+      {text && <strong>{text}</strong>}
     </div>
-  );
-};
+  )
+}

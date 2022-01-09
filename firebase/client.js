@@ -1,8 +1,4 @@
-import firebase from "firebase/compat/app";
-
-import "firebase/compat/auth";
-
-import "firebase/compat/firestore";
+import * as firebase from "firebase";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBQt2NdNO0udQQhuYxt_x7tBPef1RNbblE",
@@ -27,7 +23,7 @@ const mapUserFromFirebaseAuthToUser = (user) => {
 
 export const onAuthStateChanged = (onChange) => {
   return firebase.auth().onAuthStateChanged((user) => {
-    const normalizedUser = mapUserFromFirebaseAuthToUser(user);
+    const normalizedUser = user ? mapUserFromFirebaseAuthToUser(user) : null;
     onChange(normalizedUser);
   });
 };
